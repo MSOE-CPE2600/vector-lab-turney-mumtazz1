@@ -54,7 +54,7 @@ vect multnum(vect a, float num);
 * @brief handles the operations for printing a list of the vectors
 * @return 0
 */
-int list(void);
+void list(void);
 
 /**
 * @brief handles the operations for finding one vector
@@ -81,5 +81,9 @@ int clear(void);
 */
 int help(void);
 
+/**
+* @brief frees the pointer once the program has finished
+*/
+void deallocate(void);
 
 #endif  /*VECT_OPS_H*/ 

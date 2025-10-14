@@ -15,14 +15,20 @@
  #include "vect_ops.h"
  #include <string.h>
  #include <stdio.h>
+ #include <stdlib.h>
 
- #define MAX_VECTS 10
-
- static vect vectors[MAX_VECTS] = {0};
+ //using a dynamic array
+ static vect *vectors
+ static int size = 20;
+ vectors = (vect*)malloc(sizeof(vect) * size);
  static int vect_count = 0;
 
+ void deallocate(void){
+    free(vectors);
+}
+
  int add_new_vect(vect new){
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < vect_count; i++){
         //if vector already exists, replace its values
         if (strcmp(new.varname, vectors[i].varname) == 0){
             vectors[i].x = new.x;
@@ -32,7 +38,20 @@
         }
     }
     //add new vector if not already in the storage
-    if (vect_count < MAX_VECTS){
+    if (vect_count < size){
+        vectors[vect_count] = new;
+        vect_count++;
+        return 1;
+    } else if (vect_count == size){
+        //Reallocate to increase the size of the dynamic array
+        size = size * 2;
+        int *temp_vects = (vect*)realloc(vectors, size * sizeof(vect));
+        if (temp_vects == NULL) {
+            perror("Realloc() failed");
+            free(temp_vects); //free the original block if failed
+            return 0;
+        }
+        vectors = temp_vects; 
         vectors[vect_count] = new;
         vect_count++;
         return 1;
@@ -65,11 +84,10 @@ vect multnum(vect a, float num){
     return result;
 }
 
-int list(void){
-    for(int i=0; i<10; i++){
+void list(void){
+    for(int i=0; i<vect_count; i++){
         printf("%5s : %0.4f, %0.4f, %0.4f\n", vectors[i].varname, vectors[i].x, vectors[i].y, vectors[i].z);
     }
-    return 0;
 }
 
 vect* findvect(const char* input){
@@ -86,13 +104,8 @@ void print_vect(vect vec){
 }
 
 int clear(void){
-    for(int i = 0; i<10; i++){
-        vectors[i].varname[0] = '\0';
-        vectors[i].x = 0.00;
-        vectors[i].y = 0.00;
-        vectors[i].z = 0.00;
-        vect_count = 0;
-    }
+    deallocate();
+    vectors = NULL;
     puts("The calculator storage has been cleared.");
     return 0;
 
@@ -113,4 +126,6 @@ int help(void){
     puts("To quit the vector calculator program, enter 'quit'.");
     return 0;
 }
+
+
 

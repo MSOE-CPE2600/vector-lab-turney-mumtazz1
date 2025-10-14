@@ -59,7 +59,7 @@
         //-------------------- If user types only one token ---------------------------------
         if (token_count == 1){
             if (strcmp(tokens[0], "list") == 0){
-                int ls = list();
+                list();
             } else if (strcmp(tokens[0], "quit") == 0){
                 run = 1;
             } else if (strcmp(tokens[0], "help") == 0){
@@ -241,6 +241,7 @@
                 puts("Please enter a valid input for the calculator.");
             } 
         }
-    } 
+    }
+    deallocate(); 
     return 0;
 }
