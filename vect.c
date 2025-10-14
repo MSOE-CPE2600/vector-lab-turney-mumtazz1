@@ -99,14 +99,14 @@ int clear(void){
 }
 
 int help(void){
-    puts("Enter the x, y, z values of a vector (ex: a = 1, 2, 3)");
+    puts("Enter the x, y, z values of a vector (Ex: a = 1, 2, 3)");
     puts("Or, enter a function to perform a math operation on two existing vectors (Ex: c = a + b)");
     puts("You may perform addition or subtraction with two vectors");
     puts("You may perform scalar multiplication with one vector and a number (Ex: b = a * 2)");
-    puts("You may also perform an operation without storing its result in a vector (Ex: a + b)");
+    puts("You may also perform an operation without storing its result in a vector (Ex: a + b)\n");
     puts("Note: the calculator can only hold 10 vectors at a time. Once storage is full, it must be cleared.");
     puts("Note: you can reassign values of an existing vector.");
-    puts("Note: please add spaces between each term that is typed!");
+    puts("Note: please add spaces between each term that is typed!\n");
     puts("To free space and restart, enter 'clear' to delete all created vectors");
     puts("To view the existing vectors, Enter 'list' to view all 10 vectors.");
     puts("To view a single vector, enter its name (Ex: b)");
