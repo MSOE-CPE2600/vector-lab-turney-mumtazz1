@@ -64,6 +64,14 @@ void list(void);
 vect* findvect(const char* input);
 
 /**
+* @brief handles the operations for finding a vector
+* but at a specified index of the dynamic array
+* @param index of the array
+* @return the vector or NULL if index is more than the count
+*/
+vect* findvect2(int index);
+
+/**
 * @brief handles the operations for printing a given vector
 * @param vector to print
 */
@@ -80,6 +88,12 @@ int clear(void);
 * @return 0
 */
 int help(void);
+
+/**
+* @brief retrieves the vect_count 
+* @return the vect_count
+*/
+int get_vect_count(void);
 
 /**
 * @brief frees the pointer once the program has finished

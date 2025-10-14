@@ -99,6 +99,14 @@ vect* findvect(const char* input){
     return NULL; //if vector is not found
 }
 
+vect* findvect2(int index){
+    if (index < vect_count){
+        return &vectors[index]; //return the vector found
+    } else {
+        return NULL; //if vector is not found
+    }
+}
+
 void print_vect(vect vec){
     printf("%s : %0.4f, %0.4f, %0.4f\n", vec.varname, vec.x, vec.y, vec.z);
 }
@@ -111,7 +119,13 @@ int clear(void){
 
 }
 
+int get_vect_count(void){
+    return vect_count;
+}
+
 int help(void){
+    puts("To load a csv file, enter 'load' and the name of the file.");
+    puts("(Ex: [load list] OR [load list.csv])");
     puts("Enter the x, y, z values of a vector (Ex: a = 1, 2, 3)");
     puts("Or, enter a function to perform a math operation on two existing vectors (Ex: c = a + b)");
     puts("You may perform addition or subtraction with two vectors");
@@ -123,6 +137,8 @@ int help(void){
     puts("To free space and restart, enter 'clear' to delete all created vectors");
     puts("To view the existing vectors, Enter 'list' to view all 10 vectors.");
     puts("To view a single vector, enter its name (Ex: b)");
+    puts("To save the current vectors in a new csv file, enter 'save' and the name of the new file.");
+    puts("Ex: [save new] OR [save new.csv]");
     puts("To quit the vector calculator program, enter 'quit'.");
     return 0;
 }

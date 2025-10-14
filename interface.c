@@ -19,6 +19,28 @@
  #include <stdlib.h>
  #include <stdbool.h>
 
+ void load(FILE file_ptr){
+
+ }
+
+ void save(char *filename){
+    //add erorr handling
+    if (strstr(filename, ".csv") == NULL){
+        strcat(filename, ".csv") //review this!
+    }
+    FILE file_ptr = fopen(filename, "w");
+    if (file_ptr == NULL){
+        puts("Error writing to the file.");
+    } else {
+        for (int i = 0; i < get_vect_count(); i++){
+        vect *curr;
+        curr = findvect2(i);
+        fprintf(file_ptr, "%s,%.2f,%.2f,%.2f\n",
+            curr.varname, curr.x, curr.y, curr.z);
+        }
+        printf("The file %s has been saved.\n", filename);
+    }
+ }
 
  int user_interface(int argc, char* argv[]){
     int instructions;
@@ -77,8 +99,12 @@
             }
         }
 
+        if(token_count == 2){
+
+        }
+
         //-------------------- If user types many tokens --------------------------------------
-        if (token_count > 1){ 
+        if (token_count > 2){ 
             //-------------- Input has an equal operation, so store the resulting vector ------
             if (strcmp(tokens[1], "=") == 0){
                 //the process is repeated for each operation 
@@ -237,7 +263,7 @@
                 }        
             } else if (strcmp(tokens[1], "+") != 0 && strcmp(tokens[1], "-") != 0 && strcmp(tokens[1], "*") != 0){
                 puts("Please enter a valid operation for the calculator.");
-            } else if (token_count != 5 && token_count != 1 && token_count != 3){
+            } else if (token_count != 5 && token_count != 1 && token_count != 3 && token_count != 2){
                 puts("Please enter a valid input for the calculator.");
             } 
         }
