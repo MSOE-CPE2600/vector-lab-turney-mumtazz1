@@ -2,7 +2,7 @@
  * @file interface.c
  * @brief Source file which implements the user interface
  * Course: CPE2600
- * Assignment: Lab 5
+ * Assignment: Lab 5 - Vector Calculator
  * Author: Zoya Mumtaz
  * Date: 9/30/2025
  * Version: 1.0

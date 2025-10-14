@@ -2,7 +2,7 @@
  * @file interface.h
  * @brief Header file which declares the interface function
  * Course: CPE2600
- * Assignment: Lab 5
+ * Assignment: Lab 5 - Vector Calculator
  * Author: Zoya Mumtaz
  * Date: 9/30/2025
  * Version: 1.0
