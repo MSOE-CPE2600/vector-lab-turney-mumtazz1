@@ -114,6 +114,7 @@ void print_vect(vect vec){
 int clear(void){
     deallocate();
     vectors = NULL;
+    vect_count = 0;
     puts("The calculator storage has been cleared.");
     return 0;
 

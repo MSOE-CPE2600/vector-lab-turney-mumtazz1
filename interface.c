@@ -20,6 +20,9 @@
  #include <stdbool.h>
 
  void load(FILE file_ptr){
+    //handle misformatted csv file
+    //
+    put("The file has been loaded into the storage.");
 
  }
 
@@ -100,6 +103,13 @@
         }
 
         if(token_count == 2){
+            if (strcmp(tokens[0], "load") == 0){
+                save(tokens[1]);
+            } else if (strcmp(tokens[0],"save") == 0){
+                //handle finding the file with tokens[1]
+                FILE file_ptr;
+                load(file_ptr);
+            }
 
         }
 
