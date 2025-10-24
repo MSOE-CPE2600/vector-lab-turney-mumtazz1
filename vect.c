@@ -18,13 +18,25 @@
  #include <stdlib.h>
 
  //using a dynamic array
- static vect *vectors
+ static vect *vectors = NULL;
  static int size = 20;
- vectors = (vect*)malloc(sizeof(vect) * size);
  static int vect_count = 0;
 
+ void allocate(void){
+    if (vectors == NULL){
+        vectors = (vect*)malloc(sizeof(vect) * size);
+        if (vectors == NULL){ //if it is still NULL
+            puts("Malloc() failed.");
+            return;
+        }
+    }
+ }
+
  void deallocate(void){
-    free(vectors);
+    if (vectors != NULL){
+        free(vectors);
+        vectors = NULL;
+    }
 }
 
  int add_new_vect(vect new){
@@ -45,10 +57,10 @@
     } else if (vect_count == size){
         //Reallocate to increase the size of the dynamic array
         size = size * 2;
-        int *temp_vects = (vect*)realloc(vectors, size * sizeof(vect));
+        vect *temp_vects = (vect*)realloc(vectors, size * sizeof(vect));
         if (temp_vects == NULL) {
             perror("Realloc() failed");
-            free(temp_vects); //free the original block if failed
+            size = size / 2; //return to original size
             return 0;
         }
         vectors = temp_vects; 
@@ -111,12 +123,11 @@ void print_vect(vect vec){
     printf("%s : %0.4f, %0.4f, %0.4f\n", vec.varname, vec.x, vec.y, vec.z);
 }
 
-int clear(void){
+void clear(void){
     deallocate();
     vectors = NULL;
     vect_count = 0;
     puts("The calculator storage has been cleared.");
-    return 0;
 
 }
 
@@ -124,9 +135,9 @@ int get_vect_count(void){
     return vect_count;
 }
 
-int help(void){
+void help(void){
     puts("To load a csv file, enter 'load' and the name of the file.");
-    puts("(Ex: [load list] OR [load list.csv])");
+    puts("(Ex: [load list.csv] or you may enter the relative or absolute path, without spaces)");
     puts("Enter the x, y, z values of a vector (Ex: a = 1, 2, 3)");
     puts("Or, enter a function to perform a math operation on two existing vectors (Ex: c = a + b)");
     puts("You may perform addition or subtraction with two vectors");
@@ -139,9 +150,8 @@ int help(void){
     puts("To view the existing vectors, Enter 'list' to view all 10 vectors.");
     puts("To view a single vector, enter its name (Ex: b)");
     puts("To save the current vectors in a new csv file, enter 'save' and the name of the new file.");
-    puts("Ex: [save new] OR [save new.csv]");
-    puts("To quit the vector calculator program, enter 'quit'.");
-    return 0;
+    puts("Ex: [save new] OR [save new.csv] (Note: An existing file with the same name will be overwritten.)");
+    puts("To exit the vector calculator program, enter 'quit'.");
 }
 
 

@@ -4,3 +4,6 @@
 *.o
 #the exe file
 vectcalc
+#csv files
+run.csv
+three.csv

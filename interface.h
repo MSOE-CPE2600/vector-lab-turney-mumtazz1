@@ -18,11 +18,18 @@
 #define INTERFACE_H
 
 /**
+* @brief checks if a string is a valid float value for x, y, z
+* @param string that needs to be checked
+* 1 if it is a float, 0 if not
+*/
+int is_number(const char *string);
+
+/**
 * @brief handles the operation for loading a csv file
 * into the dynamic array
 * @param file_ptr points to the csv file
 */
-void load(FILE file_ptr);
+void load(char *filename);
 
 /**
 * @brief handles the operation for saving the vectors in
@@ -35,9 +42,8 @@ void save(char *filename);
 * @brief handles the operations for the interface of the calculator
 * @param argc for the number of arguments
 * @param argv array of arguments
-* @return 0;
 */
-int user_interface(int argc, char* argv[]);
+void user_interface(int argc, char* argv[]);
 
 
 #endif /*INTERFACE_H*/
