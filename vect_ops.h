@@ -79,15 +79,13 @@ void print_vect(vect vec);
 
 /**
 * @brief handles the operations for clearing the vectors array by setting all values to 0
-* @return 0
 */
-int clear(void);
+void clear(void);
 
 /**
 * @brief prints the intructions for using the vector calculator
-* @return 0
 */
-int help(void);
+void help(void);
 
 /**
 * @brief retrieves the vect_count 
@@ -96,8 +94,14 @@ int help(void);
 int get_vect_count(void);
 
 /**
+* @brief malloc() the dynamic array when the program begins
+*/
+void allocate(void);
+
+/**
 * @brief frees the pointer once the program has finished
 */
 void deallocate(void);
+
 
 #endif  /*VECT_OPS_H*/ 

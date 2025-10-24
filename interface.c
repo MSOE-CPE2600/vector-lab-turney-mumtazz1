@@ -19,19 +19,73 @@
  #include <stdlib.h>
  #include <stdbool.h>
 
- void load(FILE file_ptr){
-    //handle misformatted csv file
-    //
-    put("The file has been loaded into the storage.");
+ int is_number(const char *string){
+    if (string == NULL){
+        return 0;
+    }
 
+    char *end_ptr;
+    strtof(string, &end_ptr); 
+    //strtof converts entire string to float
+    //if successful, the end_ptr will point to the null terminator
+    if (*end_ptr == '\0'){
+        return 1;
+    } else {
+        return 0;
+    }
+    return 0;
+ }
+
+ void load(char *filename){
+    FILE *file_ptr = fopen(filename, "r");
+    if (file_ptr == NULL){
+        puts("Error: File does not exist.");
+    } else {
+        char line[100];
+        int line_count = 0;
+    
+        while(fgets(line, sizeof(line), file_ptr) != NULL){
+            line_count++;
+            vect new;
+
+            //parse the line and remove commas and \n and \r
+            char *name = strtok(line, ",\n\r");
+            char *x_str = strtok(NULL, ",\n\r");
+            char *y_str = strtok(NULL, ",\n\r");
+            char *z_str = strtok(NULL, ",\n\r");
+
+            if (name == NULL || x_str == NULL || y_str == NULL || z_str == NULL) {
+                printf("Skipping line %d due to invalid format.\n", line_count);
+            } else if (is_number(x_str) != 1 || is_number(y_str) != 1 || is_number(z_str) != 1){
+                printf("Skipping line %d due to invalid format.\n", line_count);
+            } else {
+                strncpy(new.varname, name, sizeof(new.varname) - 1);
+                new.varname[sizeof(new.varname) - 1] = '\0'; //adding a null terminator
+        
+                new.x = atof(x_str);
+                new.y = atof(y_str);
+                new.z = atof(z_str);
+
+                add_new_vect(new); 
+            }
+        }
+        printf("The file %s has been loaded.\n", filename);
+        fclose(file_ptr);
+    }
  }
 
  void save(char *filename){
-    //add erorr handling
-    if (strstr(filename, ".csv") == NULL){
-        strcat(filename, ".csv") //review this!
+    char full_filename[260]; //buffer
+    
+    //copy the filename and leave 5 bytes for ".csv" if needed
+    strncpy(full_filename, filename, sizeof(full_filename) - 5);
+    full_filename[sizeof(full_filename) - 5] = '\0';
+
+    if (strstr(full_filename, ".csv") == NULL) {
+        strcat(full_filename, ".csv");
     }
-    FILE file_ptr = fopen(filename, "w");
+
+    FILE *file_ptr = fopen(full_filename, "w");
     if (file_ptr == NULL){
         puts("Error writing to the file.");
     } else {
@@ -39,20 +93,20 @@
         vect *curr;
         curr = findvect2(i);
         fprintf(file_ptr, "%s,%.2f,%.2f,%.2f\n",
-            curr.varname, curr.x, curr.y, curr.z);
+            curr->varname, curr->x, curr->y, curr->z);
         }
+        fclose(file_ptr);
         printf("The file %s has been saved.\n", filename);
     }
  }
 
- int user_interface(int argc, char* argv[]){
-    int instructions;
+ void user_interface(int argc, char* argv[]){
 
     puts("Welcome to the 3D Vector Calculator!");
 
     if (argc == 2 && strcmp(argv[1], "-h") == 0){ //read argument
         puts("Instructions:");
-        instructions = help();//run the initial instructions
+        help();//run the initial instructions
     }
    
     int run = 0;
@@ -65,7 +119,7 @@
         token_count = 0; //clear the tokens, if any
 
         printf("\nVectCalc> ");
-        fgets(user_input, 50, stdin);
+        fgets(user_input, sizeof(user_input), stdin);
         
         int j = 0;
         while (user_input[j] != '\n' && user_input[j] != '\0'){
@@ -88,9 +142,9 @@
             } else if (strcmp(tokens[0], "quit") == 0){
                 run = 1;
             } else if (strcmp(tokens[0], "help") == 0){
-                instructions = help();
+                help();
             } else if (strcmp(tokens[0], "clear") == 0){
-                int clr = clear();
+                clear();
             } else { //print out the information of the given vector name, if found
                 vect *ref;
                 ref = findvect(tokens[0]);
@@ -104,13 +158,13 @@
 
         if(token_count == 2){
             if (strcmp(tokens[0], "load") == 0){
-                save(tokens[1]);
+                load(tokens[1]);
             } else if (strcmp(tokens[0],"save") == 0){
                 //handle finding the file with tokens[1]
-                FILE file_ptr;
-                load(file_ptr);
+                save(tokens[1]);
+            } else {
+                puts("Error: invalid input(s). Please try again.");
             }
-
         }
 
         //-------------------- If user types many tokens --------------------------------------
@@ -192,13 +246,7 @@
                     if (token_count == 5){ //input must have x, y, and z only
                         char name[50];
                         strcpy(name, tokens[0]);
-                        char two = tokens[2][0]; //validate that the x y and z values are numbers by retrieving their first character
-                        char three = tokens[3][0];
-                        char four = tokens[4][0];
-                        bool valid = two > 47 && two < 58; //validating that the char is a number using ascii values
-                        bool valid2 = three > 47 && three < 58;
-                        bool valid3 = four > 47 && four < 58;
-                        if (valid && valid2 && valid3){
+                        if (is_number(tokens[2]) == 1 && is_number(tokens[3]) == 1 && is_number(tokens[4]) == 1){
                             //convert token to float
                             float x_val = atof(tokens[2]);
                             float y_val = atof(tokens[3]);
@@ -278,6 +326,4 @@
             } 
         }
     }
-    deallocate(); 
-    return 0;
 }

@@ -13,9 +13,12 @@
  ***********************************************************************/
 
  #include "interface.h"
+ #include "vect_ops.h"
 
  int main(int argc, char* argv[]){
-   int running = user_interface(argc, argv);
-   return 0;
+  allocate();
+  user_interface(argc, argv);
+  deallocate();
+  return 0;
  }
  
