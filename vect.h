@@ -2,10 +2,10 @@
  * @file vect.h
  * @brief Header file which declares the vector structure
  * Course: CPE2600
- * Assignment: Lab 5
+ * Assignment: Lab 7 - Updated Vector Calculator
  * Author: Zoya Mumtaz
  * Date: 9/30/2025
- * Version: 1.0
+ * Version: 2.0
  * Note: compile with
  *     $ make
  *     run with

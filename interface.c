@@ -2,10 +2,10 @@
  * @file interface.c
  * @brief Source file which implements the user interface
  * Course: CPE2600
- * Assignment: Lab 5 - Vector Calculator
+ * Assignment: Lab 7 - Updated Vector Calculator
  * Author: Zoya Mumtaz
  * Date: 9/30/2025
- * Version: 1.0
+ * Version: 2.0
  * Note: compile with
  *     $ make
  *     run with
@@ -41,7 +41,7 @@
     if (file_ptr == NULL){
         puts("Error: File does not exist.");
     } else {
-        char line[100];
+        char line[100]; //string for each line of the csv file
         int line_count = 0;
     
         while(fgets(line, sizeof(line), file_ptr) != NULL){
@@ -54,6 +54,7 @@
             char *y_str = strtok(NULL, ",\n\r");
             char *z_str = strtok(NULL, ",\n\r");
 
+            //if there is an invalid formatted line in the file, skip that line
             if (name == NULL || x_str == NULL || y_str == NULL || z_str == NULL) {
                 printf("Skipping line %d due to invalid format.\n", line_count);
             } else if (is_number(x_str) != 1 || is_number(y_str) != 1 || is_number(z_str) != 1){
@@ -66,7 +67,7 @@
                 new.y = atof(y_str);
                 new.z = atof(z_str);
 
-                add_new_vect(new); 
+                add_new_vect(new); //add the vector of the current line to the dynamic array
             }
         }
         printf("The file %s has been loaded.\n", filename);
@@ -82,7 +83,7 @@
     full_filename[sizeof(full_filename) - 5] = '\0';
 
     if (strstr(full_filename, ".csv") == NULL) {
-        strcat(full_filename, ".csv");
+        strcat(full_filename, ".csv"); //add csv extension if it is not included already
     }
 
     FILE *file_ptr = fopen(full_filename, "w");
@@ -91,9 +92,9 @@
     } else {
         for (int i = 0; i < get_vect_count(); i++){
         vect *curr;
-        curr = findvect2(i);
+        curr = findvect2(i); //retrieve the vector
         fprintf(file_ptr, "%s,%.2f,%.2f,%.2f\n",
-            curr->varname, curr->x, curr->y, curr->z);
+            curr->varname, curr->x, curr->y, curr->z); //print current vector to the file
         }
         fclose(file_ptr);
         printf("The file %s has been saved.\n", filename);

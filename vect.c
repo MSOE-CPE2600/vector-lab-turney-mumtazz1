@@ -2,10 +2,10 @@
  * @file vect.c
  * @brief Source file which implements functions and struct
  * Course: CPE2600
- * Assignment: Lab 5
+ * Assignment: Lab 7 - Updated Vector Calculator
  * Author: Zoya Mumtaz
  * Date: 9/30/2025
- * Version: 1.0
+ * Version: 2.0
  * Note: compile with
  *     $ make
  *     run with
@@ -19,8 +19,8 @@
 
  //using a dynamic array
  static vect *vectors = NULL;
- static int size = 20;
- static int vect_count = 0;
+ static int size = 20; //initial size of vectors
+ static int vect_count = 0; //counting number of elements
 
  void allocate(void){
     if (vectors == NULL){
@@ -40,6 +40,9 @@
 }
 
  int add_new_vect(vect new){
+    if (vectors == NULL){
+        allocate(); //if vectors was previously released, allocate
+    }
     for(int i = 0; i < vect_count; i++){
         //if vector already exists, replace its values
         if (strcmp(new.varname, vectors[i].varname) == 0){
@@ -63,8 +66,9 @@
             size = size / 2; //return to original size
             return 0;
         }
+        //vectors is assigned to the realloc() array, increasing the size
         vectors = temp_vects; 
-        vectors[vect_count] = new;
+        vectors[vect_count] = new; //add the new vector to vectors
         vect_count++;
         return 1;
     }
@@ -103,6 +107,9 @@ void list(void){
 }
 
 vect* findvect(const char* input){
+    if (vectors == NULL) {
+        return NULL;
+    }
     for (int i = 0; i<vect_count; i++){
         if (strcmp(vectors[i].varname, input) == 0){
             return &vectors[i]; //return the vector found
@@ -112,6 +119,9 @@ vect* findvect(const char* input){
 }
 
 vect* findvect2(int index){
+    if (vectors == NULL) {
+        return NULL;
+    }
     if (index < vect_count){
         return &vectors[index]; //return the vector found
     } else {
@@ -124,6 +134,7 @@ void print_vect(vect vec){
 }
 
 void clear(void){
+    //free the pointer
     deallocate();
     vectors = NULL;
     vect_count = 0;
@@ -143,11 +154,11 @@ void help(void){
     puts("You may perform addition or subtraction with two vectors");
     puts("You may perform scalar multiplication with one vector and a number (Ex: b = a * 2)");
     puts("You may also perform an operation without storing its result in a vector (Ex: a + b)\n");
-    puts("Note: the calculator can only hold 10 vectors at a time. Once storage is full, it must be cleared.");
+    puts("Note: The calculator can store an unlimited number of vectors.");
     puts("Note: you can reassign values of an existing vector.");
     puts("Note: please add spaces between each term that is typed!\n");
     puts("To free space and restart, enter 'clear' to delete all created vectors");
-    puts("To view the existing vectors, Enter 'list' to view all 10 vectors.");
+    puts("To view the existing vectors, Enter 'list' to view all stored vectors.");
     puts("To view a single vector, enter its name (Ex: b)");
     puts("To save the current vectors in a new csv file, enter 'save' and the name of the new file.");
     puts("Ex: [save new] OR [save new.csv] (Note: An existing file with the same name will be overwritten.)");

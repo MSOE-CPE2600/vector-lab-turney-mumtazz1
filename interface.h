@@ -2,10 +2,10 @@
  * @file interface.h
  * @brief Header file which declares the interface function
  * Course: CPE2600
- * Assignment: Lab 5 - Vector Calculator
+ * Assignment: Lab 7 - Updated Vector Calculator
  * Author: Zoya Mumtaz
  * Date: 9/30/2025
- * Version: 1.0
+ * Version: 2.0
  * Note: compile with
  *     $ make
  *     run with
@@ -33,7 +33,7 @@ void load(char *filename);
 
 /**
 * @brief handles the operation for saving the vectors in
-* a csv file into the dynamic array
+* a csv file from the dynamic array
 * @param filename of the csv file, given by user input
 */
 void save(char *filename);
