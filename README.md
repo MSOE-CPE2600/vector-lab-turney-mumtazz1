@@ -10,9 +10,9 @@ The Vector Calculator is a program that that can perform certain math operations
 
 
 
-A Makefile is provided with the program, and the compilation can be executed through 'make'
+A Makefile is provided with the program, and the compilation can be executed through 'make'.
 
-To run the program, enter './vectcalc' as this is the name of the executable file.
+To run the program, enter './vectcalc' as this is the name of the executable file. You may also enter './vectcalc -h' to view the instructions initially.
 
 
 
@@ -40,6 +40,12 @@ Note: Existing vectors in the storage can have their values reassigned (Ex: c = 
 
 
 * **v2.0:** The version 2 tag holds the updated version of the Vector Calculator program. This program has 'unlimited' storage and can hold as many vectors as the user commands (stored in a dynamic array). Additionally, the user may load a .csv file that contains information of vectors into the program storage. The user may also store the vectors in a new .csv file.
+
+
+
+A Makefile is provided with the program, and the compilation can be executed through 'make'.
+
+To run the program, enter './vectcalc' as this is the name of the executable file. You may also enter './vectcalc -h' to view the instructions initially.
 
 
 
